@@ -96,7 +96,7 @@ export default function WeddingInvitation() {
 
       {/* Main content container */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-8">
-        <div className="relative max-w-4xl mx-auto w-fit">
+        <div className="relative max-w-4xl mx-auto w-fit sm:scale-150">
           {/* Main photo and name collage */}
           <div className="relative">
             {/* Stars decoration - top left */}
