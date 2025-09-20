@@ -1,12 +1,19 @@
 "use client";
 
+import { guestsList } from "@/consts/guests-list";
 import { animate, createScope, createSpring, Scope } from "animejs";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 export default function WeddingInvitation() {
   const [isRSVPButtonHovered, setIsRSVPButtonHovered] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const scope = useRef<Scope | null>(null);
+  const searchParams = useSearchParams();
+
+  // Find guest by code from search params
+  const guestCode = searchParams.get("code");
+  const guest = guestCode ? guestsList.find((g) => g.code === guestCode) : null;
 
   useEffect(() => {
     // Set initial state - make elements invisible
@@ -78,7 +85,8 @@ export default function WeddingInvitation() {
 
   const handleRSVPButtonClick = () => {
     console.log("RSVP button clicked");
-    window.open("https://tally.so/r/mKRZ0M", "_blank", "noopener,noreferrer");
+    const rsvpUrl = guest?.concatenate || "https://tally.so/r/mKRZ0M";
+    window.open(rsvpUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -97,6 +105,27 @@ export default function WeddingInvitation() {
       {/* Main content container */}
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-8">
         <div className="relative max-w-4xl mx-auto w-fit sm:scale-150">
+          {/* Personalized welcome message */}
+          {guest && (
+            <div className="relative z-30 w-full h-full">
+              <div className="absolute -top-4 left-25 w-full h-full">
+                <svg viewBox="60 85 264 165">
+                  <path
+                    id="curve"
+                    d="M 78 151 c -6 -7 27 -50 86 -42 c 94 -19 156 -15 141 41"
+                    fill="transparent"
+                  />
+                  <text
+                    width="500"
+                    className="font-permanent-marker text-[#323232] text-xl"
+                  >
+                    <textPath xlinkHref="#curve">Hi, {guest.name}!</textPath>
+                  </text>
+                </svg>
+              </div>
+            </div>
+          )}
+
           {/* Main photo and name collage */}
           <div className="relative">
             {/* Stars decoration - top left */}
@@ -169,40 +198,45 @@ export default function WeddingInvitation() {
               />
             </div>
 
-            {/* You're invited text */}
-            <div>
-              <img
-                src="/images/you-are-invited.png"
-                alt="+ You're Invited!"
-                className="w-48 sm:w-64 h-auto mx-auto object-contain"
-              />
-            </div>
+            {/* Only show if guest exists */}
+            {guest && (
+              <>
+                {/* You're invited text */}
+                <div>
+                  <img
+                    src="/images/you-are-invited.png"
+                    alt="+ You're Invited!"
+                    className="w-48 sm:w-64 h-auto mx-auto object-contain"
+                  />
+                </div>
 
-            {/* Invitation coming soon text */}
-            <div>
-              <img
-                src="/images/invitation-coming-soon.png"
-                alt="(invitation coming soon)"
-                className="w-44 sm:w-56 h-auto mx-auto object-cover object-center"
-              />
-            </div>
+                {/* Invitation coming soon text */}
+                <div>
+                  <img
+                    src="/images/invitation-coming-soon.png"
+                    alt="(invitation coming soon)"
+                    className="w-44 sm:w-56 h-auto mx-auto object-cover object-center"
+                  />
+                </div>
 
-            {/* RSVP Button */}
-            <div className="text-center">
-              <button
-                className="relative group cursor-pointer"
-                id="rsvp-button"
-                onMouseEnter={() => setIsRSVPButtonHovered(true)}
-                onMouseLeave={() => setIsRSVPButtonHovered(false)}
-                onClick={handleRSVPButtonClick}
-              >
-                <img
-                  src="/images/rsvp-button.png"
-                  alt="Click to RSVP!"
-                  className="w-56 h-24 sm:w-72 sm:h-32 mx-auto object-center object-cover transition-transform group-hover:scale-105"
-                />
-              </button>
-            </div>
+                {/* RSVP Button*/}
+                <div className="text-center">
+                  <button
+                    className="relative group cursor-pointer"
+                    id="rsvp-button"
+                    onMouseEnter={() => setIsRSVPButtonHovered(true)}
+                    onMouseLeave={() => setIsRSVPButtonHovered(false)}
+                    onClick={handleRSVPButtonClick}
+                  >
+                    <img
+                      src="/images/rsvp-button.png"
+                      alt="Click to RSVP!"
+                      className="w-56 h-24 sm:w-72 sm:h-32 mx-auto object-center object-cover transition-transform group-hover:scale-105"
+                    />
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

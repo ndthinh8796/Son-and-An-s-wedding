@@ -129,6 +129,7 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-permanent-marker: var(--font-permanent-marker);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
