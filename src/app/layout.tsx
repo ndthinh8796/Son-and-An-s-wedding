@@ -5,7 +5,7 @@ import "./globals.css";
 import LoadingScreen from "@/components/loading-screen";
 
 const permanentMarker = localFont({
-  src: "../../public/fonts/PermanentMarker-Regular.ttf",
+  src: "../../public/fonts/Fz-PermanentMarker.ttf",
   variable: "--font-permanent-marker",
 });
 
@@ -15,7 +15,7 @@ const geistSans = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Son and An's Wedding Invitation",
+  title: "An & Son",
   description: "Son and An's Wedding Invitation",
 };
 
